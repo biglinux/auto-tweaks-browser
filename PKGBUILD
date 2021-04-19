@@ -13,7 +13,7 @@ md5sums=(SKIP)
 
 
 package() {
-    cp -r "${srcdir}/usr/" "${pkgdir}/"
+    cp -r "${srcdir}/auto-tweaks-browser/auto-tweaks-browser/usr/" "${pkgdir}/"
 } 
 
 post_install() {
