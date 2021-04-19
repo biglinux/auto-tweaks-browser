@@ -1,0 +1,10 @@
+[Trigger]
+Type = Package
+Operation = Install
+Operation = Upgrade
+Target = firefox
+
+[Action]
+Description = Automatic enable nosync-browser
+When = PostTransaction
+Exec = sed -i 's|/usr/lib/firefox/||g' /usr/share/applications/firefox.desktop

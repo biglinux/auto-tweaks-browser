@@ -1,0 +1,4 @@
+#!/bin/bash
+#Tweaks to improve speed of browser
+
+LD_PRELOAD=/usr/lib/nosync-browser.so exec /usr/bin/epiphany ${1+"$@"}

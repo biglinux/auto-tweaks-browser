@@ -1,0 +1,10 @@
+[Trigger]
+Type = Package
+Operation = Install
+Operation = Upgrade
+Target = chromium
+
+[Action]
+Description = Automatic enable nosync-browser
+When = PostTransaction
+Exec = sed -i 's|/usr/bin/||g' /usr/share/applications/chromium.desktop
