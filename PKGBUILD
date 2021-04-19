@@ -15,10 +15,3 @@ md5sums=(SKIP)
 package() {
     cp -r "${srcdir}/auto-tweaks-browser/auto-tweaks-browser/usr/" "${pkgdir}/"
 } 
-
-post_install() {
-    sed -i 's|/usr/bin/||g' /usr/share/applications/chromium.desktop 2> /dev/null
-    sed -i 's|/usr/lib/firefox/||g' /usr/share/applications/firefox.desktop 2> /dev/null
-    sed -i 's|/usr/bin/||g' /usr/share/applications/vivaldi-stable.desktop 2> /dev/null
-    sed -i 's|/usr/bin/||g' /usr/share/applications/google-chrome.desktop 2> /dev/null
-}

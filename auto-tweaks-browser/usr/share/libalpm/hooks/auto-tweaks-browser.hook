@@ -7,4 +7,4 @@ Target = chromium firefox google-chrome vivaldi auto-tweaks-browser
 [Action]
 Description = Automatic enable nosync-browser
 When = PostTransaction
-Exec = auto-tweaks-browser-apply
+Exec = /usr/local/bin/auto-tweaks-browser-apply
