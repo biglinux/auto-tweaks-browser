@@ -2,7 +2,11 @@
 Type = Package
 Operation = Install
 Operation = Upgrade
-Target = chromium firefox google-chrome vivaldi auto-tweaks-browser
+Target = chromium
+Target = firefox
+Target = google-chrome
+Target = vivaldi
+Target =  auto-tweaks-browser
 
 [Action]
 Description = Automatic enable nosync-browser
