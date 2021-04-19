@@ -2,9 +2,9 @@
 Type = Package
 Operation = Install
 Operation = Upgrade
-Target = firefox
+Target = chromium firefox google-chrome vivaldi auto-tweaks-browser
 
 [Action]
 Description = Automatic enable nosync-browser
 When = PostTransaction
-Exec = sed -i 's|/usr/lib/firefox/||g' /usr/share/applications/firefox.desktop
+Exec = auto-tweaks-browser-apply
