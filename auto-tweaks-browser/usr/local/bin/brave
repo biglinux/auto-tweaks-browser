@@ -6,7 +6,7 @@ if [ "$(lspci | grep 'UHD Graphics 605')" != "" ]; then
     export LIBVA_DRIVER_NAME=i965
 fi
 
-OPTIMIZATION="$(cat ~/.config/browse-optimize 2>/dev/null)"
+OPTIMIZATION="$(cat ~/.config/browser-optimize 2>/dev/null)"
 VAINFO="$(vainfo 2>&1)"
 
 if [ -e "$HOME/.config/browse-brave-disable-extension" ]; then
