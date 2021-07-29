@@ -43,4 +43,4 @@ else
 fi
 
 
-LD_PRELOAD=/usr/lib/nosync-browser.so exec /usr/bin/brave --process-per-site $DISABLE_BRAVE $PARAMETERS ${1+"$@"}
+LD_PRELOAD=/usr/lib/nosync-browser.so exec /usr/bin/brave --class="brave.com,Chromium-browser" --process-per-site $DISABLE_BRAVE $PARAMETERS ${1+"$@"}

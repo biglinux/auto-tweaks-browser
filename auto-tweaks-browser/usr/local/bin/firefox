@@ -39,15 +39,12 @@ user_pref(\"media.navigator.mediadatadecoder_vpx_enabled\", true);" >>  ~/.mozil
 elif [ "$OPTIMIZATION" = "optimize" ]
 then
 
+    #disable vaapi
+    sed -i 's|user_pref("media.ffmpeg.vaapi.enabled", true|user_pref("media.ffmpeg.vaapi.enabled", false|g' ~/.mozilla/firefox/*default/prefs.js
+
     if [ "$(grep 'browser.preferences.defaultPerformanceSettings.enabled' ~/.mozilla/firefox/*default/prefs.js)" = "" ]
     then
-
-        if [ "$(grep 'user_pref("media.ffmpeg.vaapi.enabled", true' ~/.mozilla/firefox/*default/prefs.js)" != "" ]
-        then
-            #Remove performance
-            sed -i '/media.ffmpeg.vaapi.enabled/d;/media.rdd-vpx.enabled/d;/media.navigator.mediadatadecoder_vpx_enabled/d;' ~/.mozilla/firefox/*default/prefs.js
-        fi
-
+        
         #Enable optimize
         echo "user_pref(\"browser.preferences.defaultPerformanceSettings.enabled\", false);
 user_pref(\"dom.ipc.processCount\", $(nproc));" >>  ~/.mozilla/firefox/*default/prefs.js
