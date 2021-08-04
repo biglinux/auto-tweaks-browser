@@ -9,10 +9,14 @@ fi
 OPTIMIZATION="$(cat ~/.config/browser-optimize 2>/dev/null)"
 VAINFO="$(vainfo 2>&1)"
 
-if [ -e "$HOME/.config/browse-brave-disable-extension" ]; then
+if [ -e "$HOME/.config/browser-brave-disable-ad" ]; then
 
-    DISABLE_BRAVE="--disable-brave-extension --disable-brave-rewards-extension"
+    DISABLE_BRAVE_AD="--disable-brave-extension"
+fi
 
+if [ -e "$HOME/.config/browser-brave-disable-crypto" ]; then
+
+    DISABLE_BRAVE_CRYPTO="--disable-brave-rewards-extension"
 fi
 
 
@@ -43,4 +47,4 @@ else
 fi
 
 
-LD_PRELOAD=/usr/lib/nosync-browser.so exec /usr/bin/brave --class="brave.com,Chromium-browser" --process-per-site $DISABLE_BRAVE $PARAMETERS ${1+"$@"}
+LD_PRELOAD=/usr/lib/nosync-browser.so exec /usr/bin/brave --class="brave.com,Chromium-browser" --process-per-site $DISABLE_BRAVE_AD $DISABLE_BRAVE_CRYPTO $PARAMETERS ${1+"$@"}
