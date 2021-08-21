@@ -2,15 +2,12 @@
 Type = Package
 Operation = Install
 Operation = Upgrade
-Target = brave
+
 Target = chromium
 Target = firefox
 Target = google-chrome
 Target = vivaldi
-Target =  falkon
-Target =  epiphany
-Target =  opera
-Target =  auto-tweaks-browser
+Target = auto-tweaks-browser
 
 [Action]
 Description = Automatic enable nosync-browser

@@ -1,7 +1,9 @@
 #!/bin/bash
 #Tweaks to improve speed of browser
 
-sed -i 's|/usr/bin/||g' /usr/share/applications/chromium.desktop 2> /dev/null
-sed -i 's|/usr/lib/firefox/||g' /usr/share/applications/firefox.desktop 2> /dev/null
-sed -i 's|/usr/bin/||g' /usr/share/applications/vivaldi-stable.desktop 2> /dev/null
-sed -i 's|/usr/bin/||g' /usr/share/applications/google-chrome.desktop 2> /dev/null
+sed -i 's|/usr/bin/||g' /usr/share/applications/chromium.desktop &> /dev/null
+sed -i 's|/usr/lib/firefox/||g' /usr/share/applications/firefox.desktop &> /dev/null
+sed -i 's|/usr/bin/||g' /usr/share/applications/vivaldi-stable.desktop &> /dev/null
+sed -i 's|/usr/bin/||g' /usr/share/applications/google-chrome.desktop &> /dev/null
+
+exit 0
