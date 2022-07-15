@@ -1,6 +1,16 @@
 #!/bin/bash
 #Tweaks to improve speed of browser
 
+
+# Normal config in mesa and with h264ify with amber mesa
+if [ ! -e "$HOME/.config/BraveSoftware" ]; then
+    if [ -e "/usr/lib/libEGL_amber.so" ]; then
+        cp -R /usr/share/biglinux/browser/BraveSoftwareAmber "$HOME/.config/BraveSoftware"
+    else
+        cp -R /usr/share/biglinux/browser/BraveSoftware "$HOME/.config/BraveSoftware"
+    fi
+fi
+
 # Fix to intel gpu
 if [ "$(lspci | grep 'UHD Graphics 605')" != "" ]; then
     export LIBVA_DRIVER_NAME=i965

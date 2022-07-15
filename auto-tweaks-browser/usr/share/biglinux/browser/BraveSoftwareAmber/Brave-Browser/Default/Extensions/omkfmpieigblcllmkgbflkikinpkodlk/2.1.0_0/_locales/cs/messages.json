@@ -1,0 +1,27 @@
+{
+   "extensionDescription": {
+      "description": "Extension description",
+      "message": "Choose what video codec YouTube should play for you"
+   },
+   "optionsBlock60fps": {
+      "message": "Blokovat 60fps videa"
+   },
+   "optionsBlockAV1": {
+      "message": "Blokovat AV1"
+   },
+   "optionsBlockH264": {
+      "message": "Blokovat h264"
+   },
+   "optionsBlockVP8": {
+      "message": "Blokovat VP8"
+   },
+   "optionsBlockVP9": {
+      "message": "Blokovat VP9"
+   },
+   "optionsDisableLN": {
+      "message": "Disable Loudness Normalization"
+   },
+   "optionsTitle": {
+      "message": "Možnosti enhanced-h264ify"
+   }
+}
