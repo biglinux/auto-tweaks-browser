@@ -6,7 +6,8 @@ if [ "$(lspci | grep 'UHD Graphics 605')" != "" ]; then
     export LIBVA_DRIVER_NAME=i965
 fi
 
-OPTIMIZATION="$(cat ~/.config/browser-optimize 2>/dev/null)"
+#OPTIMIZATION="$(cat ~/.config/browser-optimize 2>/dev/null)"
+OPTIMIZATION="optimize"
 VAINFO="$(vainfo 2>&1)"
 
 if [ "$OPTIMIZATION" = "" ]
@@ -40,7 +41,7 @@ elif [ "$OPTIMIZATION" = "optimize" ]
 then
 
     #disable vaapi
-    sed -i 's|user_pref("media.ffmpeg.vaapi.enabled", true|user_pref("media.ffmpeg.vaapi.enabled", false|g' ~/.mozilla/firefox/*default/prefs.js
+    #sed -i 's|user_pref("media.ffmpeg.vaapi.enabled", true|user_pref("media.ffmpeg.vaapi.enabled", false|g' ~/.mozilla/firefox/*default/prefs.js
 
     if [ "$(grep 'browser.preferences.defaultPerformanceSettings.enabled' ~/.mozilla/firefox/*default/prefs.js)" = "" ]
     then
