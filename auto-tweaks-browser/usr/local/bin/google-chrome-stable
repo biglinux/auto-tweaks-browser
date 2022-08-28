@@ -41,5 +41,11 @@ if [ "$(glxinfo | grep -i Opengl | grep -i -e vmware -e llvmpipe)" != "" ]; then
     PARAMETERS="--disable-gpu"
 fi
 
+if [ "$(echo "$1" | grep '\--class')" = "" ]; then
+    CLASS="--class=Chromium-browser"
+fi
 
-LD_PRELOAD=/usr/lib/nosync-browser.so exec /usr/bin/google-chrome-stable --process-per-site $PARAMETERS ${1+"$@"}
+
+
+
+LD_PRELOAD=/usr/lib/nosync-browser.so exec /usr/bin/google-chrome-stable --process-per-site $CLASS $PARAMETERS ${1+"$@"}
