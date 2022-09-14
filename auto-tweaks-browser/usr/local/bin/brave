@@ -59,7 +59,7 @@ fi
 
 
 if [ "$(glxinfo | grep -i Opengl | grep -i -e vmware -e llvmpipe)" != "" ]; then
-    PARAMETERS="--disable-gpu"
+    PARAMETERS="--disable-gpu --global-media-controls-modern-ui=1 --enable-prerender2 --omnibox-trigger-for-prerender2"
 fi
 
 
