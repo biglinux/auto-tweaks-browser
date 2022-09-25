@@ -42,7 +42,7 @@ if [ "$(glxinfo | grep -i Opengl | grep -i -e vmware -e llvmpipe)" != "" ]; then
 fi
 
 if [ "$(echo "$1" | grep '\--class')" = "" ]; then
-    CLASS="--class=Chromium-browser --global-media-controls-modern-ui=1 --enable-prerender2 --omnibox-trigger-for-prerender2"
+    CLASS="--class=Chrome-browser --global-media-controls-modern-ui=1 --enable-prerender2 --omnibox-trigger-for-prerender2"
 fi
 
 
