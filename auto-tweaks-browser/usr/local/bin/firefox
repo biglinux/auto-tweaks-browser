@@ -63,13 +63,8 @@ else
 fi
 
 
-# Detect X11 or Wayland and run firefox with hardware acceleration
-if [ "$XDG_SESSION_TYPE" = "x11" ]
-then
-    MOZ_X11_EGL=1 MOZ_DISABLE_RDD_SANDBOX=1 LD_PRELOAD=/usr/lib/nosync-browser.so exec /usr/bin/firefox ${1+"$@"}
-else
-    MOZ_ENABLE_WAYLAND=1 MOZ_DISABLE_RDD_SANDBOX=1 LD_PRELOAD=/usr/lib/nosync-browser.so exec /usr/bin/firefox ${1+"$@"}
-fi
+# Run firefox
+LD_PRELOAD=/usr/lib/nosync-browser.so exec /usr/bin/firefox ${1+"$@"}
 
 
 
