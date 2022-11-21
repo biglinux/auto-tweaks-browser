@@ -19,16 +19,22 @@ then
 
 fi
 
+if [ "$XDG_SESSION_TYPE" = "wayland" ]; then
+    enableWayland='--ozone-platform=wayland'
+
+    waylandTweaks=',WebRTCPipeWireCapturer'
+fi
+
 if [ "$OPTIMIZATION" = "performance" ]
 then
 
-    PARAMETERS="--enable-accelerated-2d-canvas --enable-accelerated-mjpeg-decode --enable-accelerated-video --enable-features=MarkHttpAs,StrictOriginIsolation,VaapiVideoDecoder --enable-gpu-rasterization --enable-quic --use-vulkan --ignore-gpu-blocklist --enable-parallel-downloading --font-render-hinting=none --enable-zero-copy --enable-accelerated-video-decode --canvas-oop-rasterization --disable-features=UseChromeOSDirectVideoDecoder --enable-hardware-overlays=single-fullscreen,single-on-top,underlay --enable-drdc"
+    PARAMETERS="--enable-accelerated-2d-canvas --enable-accelerated-mjpeg-decode --enable-accelerated-video --enable-features=MarkHttpAs,StrictOriginIsolation,VaapiVideoDecoder,VaapiVideoEncoder,RawDraw${waylandTweaks} --enable-gpu-rasterization --enable-quic --use-vulkan --ignore-gpu-blocklist --enable-parallel-downloading --font-render-hinting=none --enable-zero-copy --enable-accelerated-video-decode --canvas-oop-rasterization --disable-features=UseChromeOSDirectVideoDecoder --enable-hardware-overlays=single-fullscreen,single-on-top,underlay --enable-drdc"
     
 
 elif [ "$OPTIMIZATION" = "optimize" ]
 then
 
-    PARAMETERS="--enable-accelerated-2d-canvas --enable-accelerated-mjpeg-decode --enable-accelerated-video --enable-features=MarkHttpAs,StrictOriginIsolation --enable-gpu-rasterization --enable-quic --use-vulkan --enable-parallel-downloading --font-render-hinting=none"
+    PARAMETERS="--enable-accelerated-2d-canvas --enable-accelerated-mjpeg-decode --enable-accelerated-video --enable-features=MarkHttpAs,StrictOriginIsolation${waylandTweaks} --enable-gpu-rasterization --enable-quic --use-vulkan --enable-parallel-downloading --font-render-hinting=none"
     
 else
 
@@ -42,4 +48,4 @@ if [ "$(glxinfo | grep -i Opengl | grep -i -e vmware -e llvmpipe)" != "" ]; then
 fi
 
 
-LD_PRELOAD=/usr/lib/nosync-browser.so exec /usr/bin/opera --process-per-site $PARAMETERS ${1+"$@"}
+LD_PRELOAD=/usr/lib/nosync-browser.so exec /usr/bin/opera --process-per-site $enableWayland $PARAMETERS ${1+"$@"}
