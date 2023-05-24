@@ -39,13 +39,13 @@ fi
 if [ "$OPTIMIZATION" = "performance" ]
 then
 
-    PARAMETERS="--enable-accelerated-2d-canvas --enable-accelerated-mjpeg-decode --enable-accelerated-video --enable-features=MarkHttpAs,StrictOriginIsolation,VaapiVideoDecoder,VaapiVideoEncoder,RawDraw${waylandTweaks} --enable-gpu-rasterization --enable-quic --use-vulkan --ignore-gpu-blocklist --enable-parallel-downloading --font-render-hinting=none --enable-zero-copy --enable-accelerated-video-decode --canvas-oop-rasterization --disable-features=UseChromeOSDirectVideoDecoder --enable-hardware-overlays=single-fullscreen,single-on-top,underlay --enable-drdc"
+    PARAMETERS="--enable-accelerated-2d-canvas --enable-accelerated-mjpeg-decode --enable-accelerated-video --enable-features=MarkHttpAs,StrictOriginIsolation,VaapiVideoDecoder,VaapiVideoEncoder,RawDraw${waylandTweaks} --enable-gpu-rasterization --enable-quic --use-vulkan --ignore-gpu-blocklist --enable-parallel-downloading --enable-zero-copy --enable-accelerated-video-decode --canvas-oop-rasterization --disable-features=UseChromeOSDirectVideoDecoder --enable-hardware-overlays=single-fullscreen,single-on-top,underlay --enable-drdc"
     
 
 elif [ "$OPTIMIZATION" = "optimize" ]
 then
 
-    PARAMETERS="--enable-accelerated-2d-canvas --enable-accelerated-mjpeg-decode --enable-accelerated-video --enable-features=MarkHttpAs,StrictOriginIsolation${waylandTweaks} --enable-gpu-rasterization --enable-quic --use-vulkan --enable-parallel-downloading --font-render-hinting=none"
+    PARAMETERS="--enable-accelerated-2d-canvas --enable-accelerated-mjpeg-decode --enable-accelerated-video --enable-features=MarkHttpAs,StrictOriginIsolation${waylandTweaks} --enable-gpu-rasterization --enable-quic --use-vulkan --enable-parallel-downloading"
     
 else
 
