@@ -17,7 +17,9 @@ if lspci | grep -q 'UHD Graphics 605'; then
 fi
 
 # Read optimization and vainfo
-OPTIMIZATION="$(<~/.config/browser-optimize 2>/dev/null)"
+if [ -f ~/.config/browser-optimize ]; then
+    OPTIMIZATION="$(<~/.config/browser-optimize)"
+fi
 VAINFO="$(vainfo 2>&1)"
 
 if [ -e "$HOME/.config/browser-brave-disable-ad" ]; then
@@ -35,18 +37,7 @@ if [ "$XDG_SESSION_TYPE" = "wayland" ]; then
     waylandTweaks=',WebRTCPipeWireCapturer'
 fi
 
-if [ "$OPTIMIZATION" = "" ]
-then
-    if [ "$(systemd-detect-virt)" = "none" ] && [ "$(echo "$VAINFO" | grep nvidia)" = "" ] && [ "$(echo "$VAINFO" | grep nouveau)" = "" ] && [ "$(echo "$VAINFO" | grep VAProfileVC1Advanced)" != "" ]; then
-        OPTIMIZATION="performance"
-    else
-        OPTIMIZATION="optimize"
-    fi
-fi
-
-
 if [ -z "$OPTIMIZATION" ]; then
-
     if [ "$(systemd-detect-virt)" = "none" ] && [[ $VAINFO != *"nvidia"* ]] && [[ $VAINFO != *"nouveau"* ]] && [[ $VAINFO == *"VAProfileVP9"* ]]; then
         OPTIMIZATION="performance"
     else
@@ -54,24 +45,16 @@ if [ -z "$OPTIMIZATION" ]; then
     fi
 fi
 
-
 if [ "$OPTIMIZATION" = "performance" ]
 then
-
     PARAMETERS="--enable-accelerated-2d-canvas --enable-accelerated-mjpeg-decode --enable-accelerated-video --enable-features=MarkHttpAs,StrictOriginIsolation,VaapiVideoDecoder,VaapiVideoEncoder,RawDraw${waylandTweaks} --enable-gpu-rasterization --enable-quic --use-vulkan --ignore-gpu-blocklist --enable-parallel-downloading --enable-zero-copy --enable-accelerated-video-decode --canvas-oop-rasterization --disable-features=UseChromeOSDirectVideoDecoder --enable-hardware-overlays=single-fullscreen,single-on-top,underlay --enable-drdc"
-    
 
 elif [ "$OPTIMIZATION" = "optimize" ]
 then
-
     PARAMETERS="--enable-accelerated-2d-canvas --enable-accelerated-mjpeg-decode --enable-accelerated-video --enable-features=MarkHttpAs,StrictOriginIsolation${waylandTweaks} --enable-gpu-rasterization  --disable-features=UseChromeOSDirectVideoDecoder --enable-quic --use-vulkan --enable-parallel-downloading"
-    
 else
-
     PARAMETERS=""
-
 fi
-
 
 if glxinfo | grep -i -q -e "vmware" -e "llvmpipe" ; then
     PARAMETERS="--disable-gpu --global-media-controls-modern-ui=1 --enable-prerender2 --omnibox-trigger-for-prerender2"
