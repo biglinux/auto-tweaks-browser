@@ -12,11 +12,12 @@ if [ ! -e "$HOME/.config/BraveSoftware" ]; then
 fi
 
 # Fix to intel gpu
-if [ "$(lspci | grep 'UHD Graphics 605')" != "" ]; then
+if lspci | grep -q 'UHD Graphics 605'; then
     export LIBVA_DRIVER_NAME=i965
 fi
 
-OPTIMIZATION="$(cat ~/.config/browser-optimize 2>/dev/null)"
+# Read optimization and vainfo
+OPTIMIZATION="$(<~/.config/browser-optimize 2>/dev/null)"
 VAINFO="$(vainfo 2>&1)"
 
 if [ -e "$HOME/.config/browser-brave-disable-ad" ]; then
@@ -31,7 +32,6 @@ fi
 
 if [ "$XDG_SESSION_TYPE" = "wayland" ]; then
     enableWayland='--ozone-platform=wayland'
-
     waylandTweaks=',WebRTCPipeWireCapturer'
 fi
 
@@ -42,8 +42,18 @@ then
     else
         OPTIMIZATION="optimize"
     fi
-
 fi
+
+
+if [ -z "$OPTIMIZATION" ]; then
+
+    if [ "$(systemd-detect-virt)" = "none" ] && [[ $VAINFO != *"nvidia"* ]] && [[ $VAINFO != *"nouveau"* ]] && [[ $VAINFO == *"VAProfileVP9"* ]]; then
+        OPTIMIZATION="performance"
+    else
+        OPTIMIZATION="optimize"
+    fi
+fi
+
 
 if [ "$OPTIMIZATION" = "performance" ]
 then
@@ -54,7 +64,7 @@ then
 elif [ "$OPTIMIZATION" = "optimize" ]
 then
 
-    PARAMETERS="--enable-accelerated-2d-canvas --enable-accelerated-mjpeg-decode --enable-accelerated-video --enable-features=MarkHttpAs,StrictOriginIsolation${waylandTweaks} --enable-gpu-rasterization --enable-quic --use-vulkan --enable-parallel-downloading"
+    PARAMETERS="--enable-accelerated-2d-canvas --enable-accelerated-mjpeg-decode --enable-accelerated-video --enable-features=MarkHttpAs,StrictOriginIsolation${waylandTweaks} --enable-gpu-rasterization  --disable-features=UseChromeOSDirectVideoDecoder --enable-quic --use-vulkan --enable-parallel-downloading"
     
 else
 
@@ -63,7 +73,7 @@ else
 fi
 
 
-if [ "$(glxinfo | grep -i Opengl | grep -i -e vmware -e llvmpipe)" != "" ]; then
+if glxinfo | grep -i -q -e "vmware" -e "llvmpipe" ; then
     PARAMETERS="--disable-gpu --global-media-controls-modern-ui=1 --enable-prerender2 --omnibox-trigger-for-prerender2"
 fi
 
