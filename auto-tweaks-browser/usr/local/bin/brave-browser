@@ -1,12 +1,25 @@
 #!/bin/bash
 #Tweaks to improve speed of browser
 
+
+# Normal config in mesa and with h264ify with amber mesa
+if [ ! -e "$HOME/.config/BraveSoftware" ]; then
+    if [ -e "/usr/lib/libEGL_amber.so" ]; then
+        cp -R /usr/share/biglinux/browser/BraveSoftwareAmber "$HOME/.config/BraveSoftware"
+    else
+        cp -R /usr/share/biglinux/browser/BraveSoftware "$HOME/.config/BraveSoftware"
+    fi
+fi
+
 # Fix to intel gpu
-if [ "$(lspci | grep 'UHD Graphics 605')" != "" ]; then
+if lspci | grep -q 'UHD Graphics 605'; then
     export LIBVA_DRIVER_NAME=i965
 fi
 
-OPTIMIZATION="$(cat ~/.config/browser-optimize 2>/dev/null)"
+# Read optimization and vainfo
+if [ -f ~/.config/browser-optimize ]; then
+    OPTIMIZATION="$(<~/.config/browser-optimize)"
+fi
 VAINFO="$(vainfo 2>&1)"
 
 if [ -e "$HOME/.config/browser-brave-disable-ad" ]; then
@@ -21,42 +34,31 @@ fi
 
 if [ "$XDG_SESSION_TYPE" = "wayland" ]; then
     enableWayland='--ozone-platform=wayland'
-
     waylandTweaks=',WebRTCPipeWireCapturer'
 fi
 
-
-if [ "$OPTIMIZATION" = "" ]
-then
-    if [ "$(systemd-detect-virt)" = "none" ] && [ "$(echo "$VAINFO" | grep nvidia)" = "" ] && [ "$(echo "$VAINFO" | grep nouveau)" = "" ] && [ "$(echo "$VAINFO" | grep VAProfileVC1Advanced)" != "" ]; then
+if [ -z "$OPTIMIZATION" ]; then
+    if [ "$(systemd-detect-virt)" = "none" ] && [[ $VAINFO != *"nvidia"* ]] && [[ $VAINFO != *"nouveau"* ]] && [[ $VAINFO == *"VAProfileVP9"* ]]; then
         OPTIMIZATION="performance"
     else
         OPTIMIZATION="optimize"
     fi
-
 fi
 
 if [ "$OPTIMIZATION" = "performance" ]
 then
-
     PARAMETERS="--enable-accelerated-2d-canvas --enable-accelerated-mjpeg-decode --enable-accelerated-video --enable-features=MarkHttpAs,StrictOriginIsolation,VaapiVideoDecoder,VaapiVideoEncoder,RawDraw${waylandTweaks} --enable-gpu-rasterization --enable-quic --use-vulkan --ignore-gpu-blocklist --enable-parallel-downloading --enable-zero-copy --enable-accelerated-video-decode --canvas-oop-rasterization --disable-features=UseChromeOSDirectVideoDecoder --enable-hardware-overlays=single-fullscreen,single-on-top,underlay --enable-drdc"
-    
 
 elif [ "$OPTIMIZATION" = "optimize" ]
 then
-
-    PARAMETERS="--enable-accelerated-2d-canvas --enable-accelerated-mjpeg-decode --enable-accelerated-video --enable-features=MarkHttpAs,StrictOriginIsolation${waylandTweaks} --enable-gpu-rasterization --enable-quic --use-vulkan --enable-parallel-downloading"
-    
+    PARAMETERS="--enable-accelerated-2d-canvas --enable-accelerated-mjpeg-decode --enable-accelerated-video --enable-features=MarkHttpAs,StrictOriginIsolation${waylandTweaks} --enable-gpu-rasterization  --disable-features=UseChromeOSDirectVideoDecoder --enable-quic --use-vulkan --enable-parallel-downloading"
 else
-
     PARAMETERS=""
+fi
 
+if glxinfo | grep -i -q -e "vmware" -e "llvmpipe" ; then
+    PARAMETERS="--disable-gpu"
 fi
 
 
-if [ "$(glxinfo | grep -i Opengl | grep -i -e vmware -e llvmpipe)" != "" ]; then
-    PARAMETERS="--disable-gpu --global-media-controls-modern-ui=1 --enable-prerender2 --omnibox-trigger-for-prerender2"
-fi
-
-
-LD_PRELOAD=/usr/lib/nosync-browser.so exec /usr/bin/brave --class="brave.com,Chromium-browser" --process-per-site $enableWayland $DISABLE_BRAVE_AD $DISABLE_BRAVE_CRYPTO $PARAMETERS ${1+"$@"}
+LD_PRELOAD=/usr/lib/nosync-browser.so exec /usr/bin/brave  --global-media-controls-modern-ui=1 --class="brave.com,Chromium-browser" --process-per-site $enableWayland $DISABLE_BRAVE_AD $DISABLE_BRAVE_CRYPTO $PARAMETERS ${1+"$@"}
