@@ -61,4 +61,4 @@ if glxinfo | grep -i -q -e "vmware" -e "llvmpipe" ; then
 fi
 
 
-LD_PRELOAD=/usr/lib/nosync-browser.so exec /usr/bin/brave --class="brave.com,Chromium-browser" --process-per-site $enableWayland $DISABLE_BRAVE_AD $DISABLE_BRAVE_CRYPTO $PARAMETERS ${1+"$@"}
+LIBVA_DRI3_DISABLE=$LIBVA_DRI3_DISABLE LD_PRELOAD=/usr/lib/nosync-browser.so exec /usr/bin/brave --class="brave.com,Chromium-browser" --process-per-site $enableWayland $DISABLE_BRAVE_AD $DISABLE_BRAVE_CRYPTO $PARAMETERS ${1+"$@"}

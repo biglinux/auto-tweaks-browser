@@ -61,4 +61,4 @@ fi
 
 
 
-LD_PRELOAD=/usr/lib/nosync-browser.so exec /usr/bin/google-chrome-stable --global-media-controls-modern-ui=1 --process-per-site $enableWayland $CLASS $PARAMETERS ${1+"$@"}
+LIBVA_DRI3_DISABLE=$LIBVA_DRI3_DISABLE LD_PRELOAD=/usr/lib/nosync-browser.so exec /usr/bin/google-chrome-stable --global-media-controls-modern-ui=1 --process-per-site $enableWayland $CLASS $PARAMETERS ${1+"$@"}
