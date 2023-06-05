@@ -46,11 +46,11 @@ fi
 
 if [ "$OPTIMIZATION" = "performance" ]
 then
-    PARAMETERS="--enable-accelerated-2d-canvas --enable-accelerated-mjpeg-decode --enable-accelerated-video --enable-features=UseDecoderStreamForWebRTC,ChromeWideEchoCancellation,AudioRendererAlgorithmParameters,MemoryPressureBasedSourceBufferGC,GlobalMediaControlsPictureInPicture,GlobalMediaControlsModernUI,VaapiVideoDecoder,VaapiVideoDecodeLinuxGL,VaapiVideoEncoder,V4L2FlatStatefulVideoDecoder,UseSequencedTaskRunnerForMediaService,AudioFocusDuckFlash,BresenhamCadence,ParallelDownloading,PdfUseSkiaRenderer,PdfXfaForms,Quic,PageEntitiesPageContentAnnotations,OmniboxTriggerForPrerender2,NativeGpuMemoryBuffers,RawDraw,ZeroCopy,CanvasOopRasterization,CanvasContextLostInBackground,VaapiJpegImageDecodeAcceleration,VaapiWebPImageDecodeAcceleration,WebGPUService,ReduceOpsTaskSplitting,IncreasedCmdBufferParseSlice,EnableDrDc,UseClientGmbInterface,MarkHttpAs${waylandTweaks} --enable-gpu-rasterization  --disable-features=UseChromeOSDirectVideoDecoder --enable-quic --use-vulkan --enable-parallel-downloading"
+    PARAMETERS="--enable-accelerated-2d-canvas --enable-accelerated-mjpeg-decode --enable-accelerated-video --enable-features=UseDecoderStreamForWebRTC,ChromeWideEchoCancellation,AudioRendererAlgorithmParameters,MemoryPressureBasedSourceBufferGC,GlobalMediaControlsPictureInPicture,VaapiVideoDecoder,VaapiVideoEncoder,ParallelDownloading,PdfUseSkiaRenderer,PdfXfaForms,Quic${waylandTweaks} --disable-features=UseChromeOSDirectVideoDecoder --enable-gpu-rasterization --enable-quic --use-vulkan --ignore-gpu-blocklist --enable-parallel-downloading --enable-zero-copy --enable-accelerated-video-decode --canvas-oop-rasterization"
 
 elif [ "$OPTIMIZATION" = "optimize" ]
 then
-    PARAMETERS="--enable-accelerated-2d-canvas --enable-accelerated-mjpeg-decode --enable-accelerated-video --enable-features=UseDecoderStreamForWebRTC,ChromeWideEchoCancellation,AudioRendererAlgorithmParameters,MemoryPressureBasedSourceBufferGC,GlobalMediaControlsPictureInPicture,GlobalMediaControlsModernUI,VaapiVideoDecoder,VaapiVideoDecodeLinuxGL,VaapiVideoEncoder,V4L2FlatStatefulVideoDecoder,UseSequencedTaskRunnerForMediaService,AudioFocusDuckFlash,BresenhamCadence,ParallelDownloading,PdfUseSkiaRenderer,PdfXfaForms,Quic,PageEntitiesPageContentAnnotations,OmniboxTriggerForPrerender2,WebGPUService,ReduceOpsTaskSplitting,IncreasedCmdBufferParseSlice,MarkHttpAs${waylandTweaks} --disable-features=UseChromeOSDirectVideoDecoder --enable-quic --use-vulkan --enable-parallel-downloading"
+    PARAMETERS="--enable-accelerated-2d-canvas --enable-accelerated-mjpeg-decode --enable-accelerated-video --enable-features=UseDecoderStreamForWebRTC,ChromeWideEchoCancellation,AudioRendererAlgorithmParameters,MemoryPressureBasedSourceBufferGC,GlobalMediaControlsPictureInPicture,VaapiVideoDecoder,VaapiVideoEncoder,ParallelDownloading,PdfUseSkiaRenderer,PdfXfaForms,Quic${waylandTweaks} --disable-features=UseChromeOSDirectVideoDecoder --enable-gpu-rasterization --enable-quic --use-vulkan --enable-parallel-downloading"
 else
     PARAMETERS=""
 fi
@@ -61,4 +61,4 @@ fi
 
 
 
-LIBVA_DRI3_DISABLE=$LIBVA_DRI3_DISABLE LD_PRELOAD=/usr/lib/nosync-browser.so exec /usr/bin/google-chrome-stable --global-media-controls-modern-ui=1 --process-per-site $enableWayland $CLASS $PARAMETERS ${1+"$@"}
+LIBVA_DRI3_DISABLE=$LIBVA_DRI3_DISABLE LD_PRELOAD=/usr/lib/nosync-browser.so exec /usr/bin/google-chrome-stable --process-per-site $enableWayland $CLASS $PARAMETERS ${1+"$@"}
