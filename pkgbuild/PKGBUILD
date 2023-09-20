@@ -7,7 +7,7 @@ arch=('any')
 license=('GPL')
 url="https://github.com/biglinux/auto-tweaks-browser"
 pkgdesc="Auto optimize brave, chromium, epiphany, falkon, firefox, google-chrome, opera and vivaldi"
-depends=('nosync-browser' 'libva-utils' 'mesa-utils' 'irqbalance' 'ananicy-cpp' 'cachyos-ananicy-rules-git' 'uksmd')
+depends=('nosync-browser' 'libva-utils' 'mesa-utils' 'irqbalance' 'ananicy-cpp' 'cachyos-ananicy-rules-git')
 source=("git+https://github.com/biglinux/auto-tweaks-browser.git")
 md5sums=(SKIP)
 
