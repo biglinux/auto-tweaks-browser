@@ -6,4 +6,12 @@ sed -i 's|/usr/lib/firefox/||g' /usr/share/applications/firefox.desktop &> /dev/
 sed -i 's|/usr/bin/||g' /usr/share/applications/vivaldi-stable.desktop &> /dev/null
 sed -i 's|/usr/bin/||g' /usr/share/applications/google-chrome.desktop &> /dev/null
 
-exit 0
+if ! systemctl -q ananicy-cpp; then
+	systemctl enable ananicy-cpp
+fi
+
+if ! systemctl -q irqbalance; then
+	systemctl enable irqbalance
+fi
+
+
