@@ -15,7 +15,7 @@ if ! systemctl -q irqbalance; then
 fi
 
 
-if ! systemctl -q uksmd; then
-	systemctl enable uksmd
-fi
+#if ! systemctl -q uksmd; then
+#	systemctl enable uksmd
+#fi
 
