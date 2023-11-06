@@ -11,6 +11,12 @@ if [ ! -e "$HOME/.config/BraveSoftware" ]; then
     fi
 fi
 
+# Use system theme
+if ! grep -q 'system_theme' ~/.config/BraveSoftware/Brave-Browser/Default/Preferences; then
+    jq '.extensions.theme |= (.system_theme = 1 | .use_system = true)' ~/.config/BraveSoftware/Brave-Browser/Default/Preferences > ~/.config/BraveSoftware/Brave-Browser/Default/Preferences-tmp
+    mv -f ~/.config/BraveSoftware/Brave-Browser/Default/Preferences-tmp ~/.config/BraveSoftware/Brave-Browser/Default/Preferences
+fi
+
 # Fix to intel gpu
 if lspci | grep -q 'UHD Graphics 605'; then
     export LIBVA_DRIVER_NAME=i965

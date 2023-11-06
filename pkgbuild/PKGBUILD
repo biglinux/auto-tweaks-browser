@@ -11,6 +11,7 @@ depends=('nosync-browser' 'libva-utils' 'mesa-utils' 'irqbalance' 'ananicy-cpp' 
 source=("git+https://github.com/biglinux/auto-tweaks-browser.git")
 md5sums=(SKIP)
 
+
 package() {
     # Verify default folder
     if [ -d "${srcdir}/${pkgname}/${pkgname}" ]; then
