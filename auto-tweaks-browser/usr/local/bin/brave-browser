@@ -40,7 +40,6 @@ if [ -e "$HOME/.config/browser-brave-disable-crypto" ]; then
 fi
 
 if [ "$XDG_SESSION_TYPE" = "wayland" ]; then
-    enableWayland='--ozone-platform=wayland'
     waylandTweaks=',WebRTCPipeWireCapturer'
 fi
 
@@ -64,4 +63,4 @@ else
 fi
 
 
-LD_PRELOAD=/usr/lib/nosync-browser.so exec /usr/bin/brave  --global-media-controls-modern-ui=1 --class="brave.com,Chromium-browser" --process-per-site $enableWayland $DISABLE_BRAVE_AD $DISABLE_BRAVE_CRYPTO $PARAMETERS ${1+"$@"}
+LD_PRELOAD=/usr/lib/nosync-browser.so exec /usr/bin/brave  --global-media-controls-modern-ui=1 --class="brave.com,Chromium-browser" --process-per-site $DISABLE_BRAVE_AD $DISABLE_BRAVE_CRYPTO $PARAMETERS ${1+"$@"}
