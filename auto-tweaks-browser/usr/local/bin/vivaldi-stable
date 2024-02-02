@@ -32,6 +32,7 @@ if [ -e "$HOME/.config/browser-brave-disable-crypto" ]; then
 fi
 
 if [ "$XDG_SESSION_TYPE" = "wayland" ]; then
+    enableWayland='--ozone-platform=wayland'
     waylandTweaks=',WebRTCPipeWireCapturer'
 fi
 
@@ -54,4 +55,4 @@ else
     PARAMETERS=""
 fi
 
-LD_PRELOAD=/usr/lib/nosync-browser.so exec /usr/bin/vivaldi-stable --global-media-controls-modern-ui=1 --process-per-site $PARAMETERS ${1+"$@"}
+LD_PRELOAD=/usr/lib/nosync-browser.so exec /usr/bin/vivaldi-stable --global-media-controls-modern-ui=1 --process-per-site $enableWayland $PARAMETERS ${1+"$@"}
