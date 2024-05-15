@@ -10,50 +10,40 @@ if [ ! -e "$HOME/.config/BraveSoftware" ]; then
     fi
 fi
 
-# Fix to intel gpu
+# # Fix to intel gpu
 if lspci | grep -q 'UHD Graphics 605'; then
     export LIBVA_DRIVER_NAME=i965
 fi
+# 
+# # Read optimization and vainfo
+# if [ -f ~/.config/browser-optimize ]; then
+#     OPTIMIZATION="$(<~/.config/browser-optimize)"
+# fi
+# VAINFO="$(vainfo 2>&1)"
 
-# Read optimization and vainfo
-if [ -f ~/.config/browser-optimize ]; then
-    OPTIMIZATION="$(<~/.config/browser-optimize)"
-fi
-VAINFO="$(vainfo 2>&1)"
-
-if [ -e "$HOME/.config/browser-brave-disable-ad" ]; then
-
-    DISABLE_BRAVE_AD="--disable-brave-extension"
-fi
-
-if [ -e "$HOME/.config/browser-brave-disable-crypto" ]; then
-
-    DISABLE_BRAVE_CRYPTO="--disable-brave-rewards-extension"
-fi
-
-if [ "$XDG_SESSION_TYPE" = "wayland" ]; then
-    enableWayland='--ozone-platform=wayland'
-    waylandTweaks=',WebRTCPipeWireCapturer'
-fi
-
-if [ -z "$OPTIMIZATION" ]; then
-    if [ "$(systemd-detect-virt)" = "none" ] && [[ $VAINFO != *"nvidia"* ]] && [[ $VAINFO != *"nouveau"* ]] && [[ $VAINFO == *"VAProfileVP9"* ]]; then
-        OPTIMIZATION="performance"
-    else
-        OPTIMIZATION="optimize"
-    fi
-fi
-
-if [ "$OPTIMIZATION" = "performance" ]
-then
-    PARAMETERS="--enable-accelerated-2d-canvas --enable-accelerated-mjpeg-decode --enable-accelerated-video --enable-features=VaapiVideoDecodeLinuxGL,UseDecoderStreamForWebRTC,ChromeWideEchoCancellation,AudioRendererAlgorithmParameters,MemoryPressureBasedSourceBufferGC,GlobalMediaControlsPictureInPicture,VaapiVideoDecoder,VaapiVideoEncoder,ParallelDownloading,PdfUseSkiaRenderer,PdfXfaForms,Quic${waylandTweaks} --enable-gpu-rasterization --enable-quic --ignore-gpu-blocklist --enable-parallel-downloading --enable-zero-copy --enable-accelerated-video-decode"
-        
-elif [ "$OPTIMIZATION" = "optimize" ]
-then
-    PARAMETERS="--enable-accelerated-2d-canvas --enable-accelerated-video --enable-features=VaapiVideoDecodeLinuxGL,UseDecoderStreamForWebRTC,ChromeWideEchoCancellation,AudioRendererAlgorithmParameters,MemoryPressureBasedSourceBufferGC,GlobalMediaControlsPictureInPicture,VaapiVideoDecoder,VaapiVideoEncoder,ParallelDownloading,PdfUseSkiaRenderer,PdfXfaForms,Quic${waylandTweaks} --enable-gpu-rasterization --enable-quic --enable-parallel-downloading"
-else
-    PARAMETERS=""
-fi
+# if [ "$XDG_SESSION_TYPE" = "wayland" ]; then
+#     enableWayland='--ozone-platform=wayland'
+#     waylandTweaks=',WebRTCPipeWireCapturer'
+# fi
+# 
+# if [ -z "$OPTIMIZATION" ]; then
+#     if [ "$(systemd-detect-virt)" = "none" ] && [[ $VAINFO != *"nvidia"* ]] && [[ $VAINFO != *"nouveau"* ]] && [[ $VAINFO == *"VAProfileVP9"* ]]; then
+#         OPTIMIZATION="performance"
+#     else
+#         OPTIMIZATION="optimize"
+#     fi
+# fi
+# 
+# if [ "$OPTIMIZATION" = "performance" ]
+# then
+#     PARAMETERS="--enable-accelerated-2d-canvas --enable-accelerated-mjpeg-decode --enable-accelerated-video --enable-features=VaapiVideoDecodeLinuxGL,UseDecoderStreamForWebRTC,ChromeWideEchoCancellation,AudioRendererAlgorithmParameters,MemoryPressureBasedSourceBufferGC,GlobalMediaControlsPictureInPicture,VaapiVideoDecoder,VaapiVideoEncoder,ParallelDownloading,PdfUseSkiaRenderer,PdfXfaForms,Quic${waylandTweaks} --enable-gpu-rasterization --enable-quic --ignore-gpu-blocklist --enable-parallel-downloading --enable-zero-copy --enable-accelerated-video-decode"
+#         
+# elif [ "$OPTIMIZATION" = "optimize" ]
+# then
+#     PARAMETERS="--enable-accelerated-2d-canvas --enable-accelerated-video --enable-features=VaapiVideoDecodeLinuxGL,UseDecoderStreamForWebRTC,ChromeWideEchoCancellation,AudioRendererAlgorithmParameters,MemoryPressureBasedSourceBufferGC,GlobalMediaControlsPictureInPicture,VaapiVideoDecoder,VaapiVideoEncoder,ParallelDownloading,PdfUseSkiaRenderer,PdfXfaForms,Quic${waylandTweaks} --enable-gpu-rasterization --enable-quic --enable-parallel-downloading"
+# else
+#     PARAMETERS=""
+# fi
 
 if glxinfo | grep -i -q -e "vmware" -e "llvmpipe" ; then
     PARAMETERS="--disable-gpu"
