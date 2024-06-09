@@ -1,10 +1,9 @@
 #!/bin/bash
 #Tweaks to improve speed of browser
 
-
 # Fix to intel gpu
 if lspci | grep -q 'UHD Graphics 605'; then
-    export LIBVA_DRIVER_NAME=i965
+	export LIBVA_DRIVER_NAME=i965
 fi
 
 # # Read optimization and vainfo
@@ -12,22 +11,22 @@ fi
 #     OPTIMIZATION="$(<~/.config/browser-optimize)"
 # fi
 # VAINFO="$(vainfo 2>&1)"
-# 
+#
 # if [ -e "$HOME/.config/browser-brave-disable-ad" ]; then
-# 
+#
 #     DISABLE_BRAVE_AD="--disable-brave-extension"
 # fi
-# 
+#
 # if [ -e "$HOME/.config/browser-brave-disable-crypto" ]; then
-# 
+#
 #     DISABLE_BRAVE_CRYPTO="--disable-brave-rewards-extension"
 # fi
-# 
+#
 # if [ "$XDG_SESSION_TYPE" = "wayland" ]; then
 #     enableWayland='--ozone-platform=wayland'
 #     waylandTweaks=',WebRTCPipeWireCapturer'
 # fi
-# 
+#
 # if [ -z "$OPTIMIZATION" ]; then
 #     if [ "$(systemd-detect-virt)" = "none" ] && [[ $VAINFO != *"nvidia"* ]] && [[ $VAINFO != *"nouveau"* ]] && [[ $VAINFO == *"VAProfileVP9"* ]]; then
 #         OPTIMIZATION="performance"
@@ -35,17 +34,16 @@ fi
 #         OPTIMIZATION="optimize"
 #     fi
 # fi
-# 
+#
 # if [ "$OPTIMIZATION" = "performance" ]
 # then
 #     PARAMETERS="--enable-accelerated-2d-canvas --enable-accelerated-mjpeg-decode --enable-accelerated-video --enable-features=VaapiVideoDecodeLinuxGL,UseDecoderStreamForWebRTC,ChromeWideEchoCancellation,AudioRendererAlgorithmParameters,MemoryPressureBasedSourceBufferGC,GlobalMediaControlsPictureInPicture,VaapiVideoDecoder,VaapiVideoEncoder,ParallelDownloading,PdfUseSkiaRenderer,PdfXfaForms,Quic${waylandTweaks} --enable-gpu-rasterization --enable-quic --ignore-gpu-blocklist --enable-parallel-downloading --enable-zero-copy --enable-accelerated-video-decode"
-#         
+#
 # elif [ "$OPTIMIZATION" = "optimize" ]
 # then
 #     PARAMETERS="--enable-accelerated-2d-canvas --enable-accelerated-video --enable-features=VaapiVideoDecodeLinuxGL,UseDecoderStreamForWebRTC,ChromeWideEchoCancellation,AudioRendererAlgorithmParameters,MemoryPressureBasedSourceBufferGC,GlobalMediaControlsPictureInPicture,VaapiVideoDecoder,VaapiVideoEncoder,ParallelDownloading,PdfUseSkiaRenderer,PdfXfaForms,Quic${waylandTweaks} --enable-gpu-rasterization --enable-quic --enable-parallel-downloading"
 # else
 #     PARAMETERS=""
 # fi
-
 
 LD_PRELOAD=/usr/lib/nosync-browser.so exec /usr/bin/chromium --global-media-controls-modern-ui=1 --process-per-site $enableWayland $PARAMETERS ${1+"$@"}
