@@ -7,3 +7,7 @@ test -f $folder/chromium.desktop && sed -i 's|/usr/bin/||g' $folder/chromium.des
 test -f $folder/firefox.desktop && sed -i 's|/usr/lib/firefox/||g' $folder/firefox.desktop || exit=0
 test -f $folder/vivaldi-stable.desktop && sed -i 's|/usr/bin/||g' $folder/vivaldi-stable.desktop || exit=0
 test -f $folder/google-chrome.desktop && sed -i 's|/usr/bin/||g' $folder/google-chrome.desktop || exit=0
+test -f $folder/google-chrome-beta.desktop && sed -i 's|/usr/bin/||g' $folder/google-chrome-beta.desktop || exit=0
+test -f $folder/google-chrome-unstable.desktop && sed -i 's|/usr/bin/||g' $folder/google-chrome-unstable.desktop || exit=0
+test -f $folder/brave-browser-beta.desktop && sed -i 's|/usr/bin/||g' $folder/brave-browser-beta.desktop || exit=0
+test -f $folder/brave-browser-nightly.desktop && sed -i 's|/usr/bin/||g' $folder/brave-browser-nightly.desktop || exit=0
