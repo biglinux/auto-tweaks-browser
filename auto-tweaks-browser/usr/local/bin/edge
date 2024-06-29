@@ -70,4 +70,4 @@ fi
 #     PARAMETERS=""
 # fi
 
-LD_PRELOAD=/usr/lib/nosync-browser.so exec /usr/bin/opera --global-media-controls-modern-ui=1 --process-per-site $enableWayland $PARAMETERS ${1+"$@"}
+LD_PRELOAD=/usr/lib/nosync-browser.so exec /usr/bin/microsoft-edge-stable $enableWayland $PARAMETERS ${1+"$@"}
