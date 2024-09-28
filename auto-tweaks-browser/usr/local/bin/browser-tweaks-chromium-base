@@ -84,6 +84,6 @@ export LIBVA_DRI3_DISABLE=$LIBVA_DRI3_DISABLE
 export LD_PRELOAD=/usr/lib/nosync-browser.so
 
 # Read filename and change /usr/local/bin to /usr/bin
-exec ${0//usr\/local\/bin/usr\/bin} $enableWayland $CLASS --enable-features=FluentScrollbar,VaapiVideoDecodeLinuxGL,VaapiOnNvidiaGPUs,VaapiVideoDecodeLinuxZeroCopyGL,VaapiVideoEncoder --disable-features=WebRtcAllowInputVolumeAdjustment,WaylandOverlayDelegation,AllowQt --enable-gpu-memory-buffer-compositor-resources --enable-zero-copy  $PARAMETERS ${1+"$@"}
+exec ${0//usr\/local\/bin/usr\/bin} $enableWayland $CLASS --enable-features=FluentScrollbar,VaapiVideoDecodeLinuxGL,VaapiVideoDecodeLinuxZeroCopyGL --disable-features=WebRtcAllowInputVolumeAdjustment,WaylandOverlayDelegation,AllowQt --enable-gpu-memory-buffer-compositor-resources --enable-zero-copy  $PARAMETERS ${1+"$@"}
 
 
