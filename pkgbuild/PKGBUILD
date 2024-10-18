@@ -7,7 +7,7 @@ arch=('any')
 license=('GPL')
 url="https://github.com/biglinux/auto-tweaks-browser"
 pkgdesc="Auto optimize brave, chromium, epiphany, falkon, firefox, google-chrome, opera and vivaldi"
-depends=('eatmydata' 'libva-utils' 'mesa-utils' 'irqbalance')
+depends=('libeatmydata' 'libva-utils' 'mesa-utils' 'irqbalance')
 source=("git+https://github.com/biglinux/auto-tweaks-browser.git")
 md5sums=(SKIP)
 
