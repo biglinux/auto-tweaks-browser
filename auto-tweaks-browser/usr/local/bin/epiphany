@@ -1,4 +1,11 @@
 #!/bin/bash
 #Tweaks to improve speed of browser
 
-LD_PRELOAD=/usr/lib/nosync-browser.so exec /usr/bin/epiphany ${1+"$@"}
+# Less disk write cache
+if [ -n "$LD_PRELOAD" ]; then
+	export LD_PRELOAD="/usr/lib/libeatmydata.so $LD_PRELOAD"
+else
+	export LD_PRELOAD="/usr/lib/libeatmydata.so"
+fi
+
+exec /usr/bin/epiphany ${1+"$@"}

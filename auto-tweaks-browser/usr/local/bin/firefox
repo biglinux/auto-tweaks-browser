@@ -84,6 +84,13 @@ else
     fi
 fi
 
+# Less disk write cache
+if [ -n "$LD_PRELOAD" ]; then
+	export LD_PRELOAD="/usr/lib/libeatmydata.so $LD_PRELOAD"
+else
+	export LD_PRELOAD="/usr/lib/libeatmydata.so"
+fi
+
 # Run Firefox
-LD_PRELOAD=/usr/lib/nosync-browser.so exec /usr/bin/firefox "$@"
+exec /usr/bin/firefox "$@"
 

@@ -42,7 +42,100 @@ fi
 
 #LD_PRELOAD=/usr/lib/nosync-browser.so exec /usr/bin/falkon ${1+"$@"}
 #LD_PRELOAD=/usr/lib/nosync-browser.so exec /usr/bin/falkon --global-media-controls-modern-ui=1 --process-per-site "$enableWayland" ${1+"$@"}
-LD_PRELOAD=/usr/lib/nosync-browser.so exec /usr/bin/falkon "$enableWayland" ${1+"$@"}
+#!/usr/bin/env bash
+#shellcheck disable=SC2155,SC2034
+#shellcheck source=/dev/null
+
+#  /usr/local/bin/firefox
+#  Description: Tweaks to improve speed of browser
+#
+#  Created: 2020/01/11
+#  Altered: 2024/06/07
+#
+#  Copyright (c) 2023-2024, Vilmar Catafesta <vcatafesta@gmail.com>
+#                2022-2023, Bruno Gonçalves <www.biglinux.com.br>
+#  All rights reserved.
+#
+#  Redistribution and use in source and binary forms, with or without
+#  modification, are permitted provided that the following conditions
+#  are met:
+#  1. Redistributions of source code must retain the above copyright
+#     notice, this list of conditions and the following disclaimer.
+#  2. Redistributions in binary form must reproduce the above copyright
+#     notice, this list of conditions and the following disclaimer in the
+#     documentation and/or other materials provided with the distribution.
+#
+#  THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+#  IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+#  OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+#  IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+#  INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+#  NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+#  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+#  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+#  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+#  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+APP="${0##*/}"
+_VERSION_="1.0.0-20240607"
+
+# Fix to Intel GPU
+if lspci | grep -q 'UHD Graphics 605'; then
+    export LIBVA_DRIVER_NAME=i965
+fi
+
+# OPTIMIZATION="$(cat ~/.config/browser-optimize 2>/dev/null)"
+OPTIMIZATION="optimize"
+VAINFO="$(vainfo 2>&1)"
+
+# Determine optimization setting
+if [[ -z "$OPTIMIZATION" ]]; then
+    if [[ "$(systemd-detect-virt)" == "none" ]] && ! echo "$VAINFO" | grep -q 'nvidia\|nouveau' && echo "$VAINFO" | grep -q 'VAProfileVC1Advanced'; then
+        OPTIMIZATION="performance"
+    else
+        OPTIMIZATION="optimize"
+    fi
+fi
+
+# Path to Firefox prefs.js
+PREFS_JS_PATH=~/.mozilla/firefox/*default/prefs.js
+
+# Apply performance settings
+if [[ "$OPTIMIZATION" == "performance" ]]; then
+    if ! grep -q 'user_pref("media.ffmpeg.vaapi.enabled", true' "$PREFS_JS_PATH"; then
+        cat <<EOF >>"$PREFS_JS_PATH"
+user_pref("browser.preferences.defaultPerformanceSettings.enabled", false);
+user_pref("dom.ipc.processCount", $(nproc));
+user_pref("media.ffmpeg.vaapi.enabled", true);
+user_pref("media.rdd-vpx.enabled", false);
+user_pref("media.navigator.mediadatadecoder_vpx_enabled", true);
+EOF
+    fi
+
+# Apply optimization settings
+elif [[ "$OPTIMIZATION" == "optimize" ]]; then
+    if ! grep -q 'browser.preferences.defaultPerformanceSettings.enabled' "$PREFS_JS_PATH"; then
+        cat <<EOF >>"$PREFS_JS_PATH"
+user_pref("browser.preferences.defaultPerformanceSettings.enabled", false);
+user_pref("dom.ipc.processCount", $(nproc));
+EOF
+    fi
+
+# Remove performance settings if not needed
+else
+    if grep -q 'user_pref("media.ffmpeg.vaapi.enabled", true' "$PREFS_JS_PATH"; then
+        sed -i '/media.ffmpeg.vaapi.enabled/d;/media.rdd-vpx.enabled/d;/media.navigator.mediadatadecoder_vpx_enabled/d;' "$PREFS_JS_PATH"
+    fi
+fi
+
+# Less disk write cache
+if [ -n "$LD_PRELOAD" ]; then
+	export LD_PRELOAD="/usr/lib/libeatmydata.so $LD_PRELOAD"
+else
+	export LD_PRELOAD="/usr/lib/libeatmydata.so"
+fi
+
+exec /usr/bin/falkon "$enableWayland" ${1+"$@"}
 
 
 
