@@ -88,4 +88,4 @@ else
 fi
 
 # Read filename and change /usr/local/bin to /usr/bin
-exec ${0//usr\/local\/bin/usr\/bin} $enableWayland $CLASS --enable-quic --enable-features=PdfOcr,PdfSearchify,PdfTags,AccessiblePDFForm,PdfXfaForms,FluentScrollbar,GlobalMediaControlsUpdatedUI,ParallelDownloading --disable-features=WebRtcAllowInputVolumeAdjustment,AllowQt   $PARAMETERS ${1+"$@"}
+exec ${0//usr\/local\/bin/usr\/bin} $enableWayland $CLASS --enable-quic --enable-features=TearOffWebAppTabOpensWebAppWindow,PdfOcr,PdfSearchify,PdfTags,AccessiblePDFForm,PdfXfaForms,FluentScrollbar,GlobalMediaControlsUpdatedUI,ParallelDownloading --disable-features=WebRtcAllowInputVolumeAdjustment,AllowQt,GlobalShortcutsPortal   $PARAMETERS ${1+"$@"}
