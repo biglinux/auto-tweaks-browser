@@ -11,26 +11,46 @@ depends=('libeatmydata' 'libva-utils' 'mesa-utils' 'irqbalance')
 source=("git+https://github.com/biglinux/auto-tweaks-browser.git")
 md5sums=(SKIP)
 
+# Automatically detect and use the correct install file
+if [ -e "${pkgname}.install" ]; then
+    install=${pkgname}.install
+elif [ -e "pkgbuild.install" ]; then
+    install=pkgbuild.install
+fi
+
+prepare() {
+    cd "${srcdir}/${pkgname}"
+    # Add any preparation steps here, if needed
+    # For example: patch -p1 < "${srcdir}/patch-file.patch"
+}
+
+build() {
+    cd "${srcdir}/${pkgname}"
+    # Add build steps here, if needed
+    # For example: make
+}
+
+check() {
+    cd "${srcdir}/${pkgname}"
+    # Add check/test steps here, if needed
+    # For example: make check
+}
 
 package() {
-    # Verify default folder
-    if [ -d "${srcdir}/${pkgname}/${pkgname}" ]; then
+    cd "${srcdir}/${pkgname}"
+
+    # Determine the correct source directory
+    if [ -d "${pkgname}" ]; then
         InternalDir="${srcdir}/${pkgname}/${pkgname}"
     else
         InternalDir="${srcdir}/${pkgname}"
     fi
 
-
-    # Copy files
-    if [ -d "${InternalDir}/usr" ]; then
-        cp -r "${InternalDir}/usr" "${pkgdir}/"
-    fi
-
-    if [ -d "${InternalDir}/etc" ]; then
-        cp -r "${InternalDir}/etc" "${pkgdir}/"
-    fi
-
-    if [ -d "${InternalDir}/opt" ]; then
-        cp -r "${InternalDir}/opt" "${pkgdir}/"
-    fi
+    # Install files
+    local dirs=("usr" "etc" "opt")
+    for dir in "${dirs[@]}"; do
+        if [ -d "${InternalDir}/${dir}" ]; then
+            cp -a "${InternalDir}/${dir}" "${pkgdir}/"
+        fi
+    done
 }

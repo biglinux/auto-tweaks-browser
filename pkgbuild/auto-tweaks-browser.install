@@ -1,0 +1,55 @@
+# Installation file for auto-tweaks-browser package
+# This file contains scripts that are executed at different stages of package installation/upgrade/removal
+
+# Function to check for community edition and update browser homepage
+update_browser_homepage() {
+    # Check if any of the community edition files exist
+    if [ -f "/usr/bin/startgnome-community" ] || [ -f "/usr/bin/starxfce-community" ] || [ -f "/usr/bin/startcinnamon-community" ]; then
+        echo "Community edition detected. Updating browser homepage to communitybig.org..."
+        
+        # List of browser preference files to update
+        local pref_files=(
+            "/usr/share/biglinux/browser/BraveSoftware/Brave-Browser/Default/Preferences"
+            "/usr/share/biglinux/browser/BraveSoftwareAmber/Brave-Browser/Default/Preferences"
+        )
+        
+        # Update each preference file if it exists
+        for pref_file in "${pref_files[@]}"; do
+            if [ -f "$pref_file" ]; then
+                echo "Updating homepage in: $pref_file"
+                # Use sed to replace the homepage URL
+                sed -i 's|https://www\.biglinux\.com\.br/|https://communitybig.org/|g' "$pref_file"
+            fi
+        done
+        
+        echo "Browser homepage updated successfully."
+    else
+        echo "Standard BigLinux edition detected. Keeping default homepage."
+    fi
+}
+
+# Function executed after package installation
+post_install() {
+    echo "Configuring auto-tweaks-browser after installation..."
+    update_browser_homepage
+}
+
+# Function executed after package upgrade
+post_upgrade() {
+    echo "Updating auto-tweaks-browser configuration after upgrade..."
+    update_browser_homepage
+}
+
+# Function executed before package removal
+pre_remove() {
+    echo "Preparing to remove auto-tweaks-browser..."
+    # Stop any browser processes that might be using the configuration
+    # (Optional: add any cleanup needed before removal)
+}
+
+# Function executed after package removal
+post_remove() {
+    echo "Auto-tweaks-browser removed successfully."
+    echo "Note: Browser configuration files remain in /usr/share/biglinux/browser/"
+    echo "These will be managed by the system's browser packages."
+}
