@@ -43,6 +43,13 @@ if [ ! -e "$HOME/.config/BraveSoftware" ]; then
 	# Change default url in community version
 	if grep -q 'ID=bigcommunity' /etc/os-release; then
 		sed -i 's|www.biglinux.com.br|communitybig.org|g' ~/.config/BraveSoftware/Brave-Browser/Default/Preferences
+		if [[ -z "$1" ]]; then
+			startUrl=communitybig.org
+		fi
+	else
+		if [[ -z "$1" ]]; then
+			startUrl=communitybig.org
+		fi
 	fi
 fi
 
@@ -93,4 +100,4 @@ else
 fi
 
 # Read filename and change /usr/local/bin to /usr/bin
-exec ${0//usr\/local\/bin/usr\/bin} $enableWayland $CLASS --enable-quic --enable-features=TearOffWebAppTabOpensWebAppWindow,PdfOcr,PdfSearchify,PdfTags,AccessiblePDFForm,PdfXfaForms,FluentScrollbar,GlobalMediaControlsUpdatedUI,ParallelDownloading --disable-features=WebRtcAllowInputVolumeAdjustment,AllowQt,GlobalShortcutsPortal   $PARAMETERS ${1+"$@"}
+exec ${0//usr\/local\/bin/usr\/bin} $enableWayland $CLASS --enable-quic --enable-features=TearOffWebAppTabOpensWebAppWindow,PdfOcr,PdfSearchify,PdfTags,AccessiblePDFForm,PdfXfaForms,FluentScrollbar,GlobalMediaControlsUpdatedUI,ParallelDownloading --disable-features=WebRtcAllowInputVolumeAdjustment,AllowQt,GlobalShortcutsPortal $PARAMETERS $startUrl ${1+"$@"}
