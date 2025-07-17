@@ -39,6 +39,11 @@ if [ ! -e "$HOME/.config/BraveSoftware" ]; then
 	else
 		cp -R /usr/share/biglinux/browser/BraveSoftware "$HOME/.config/BraveSoftware"
 	fi
+	
+	# Change default url in community version
+	if grep -q 'ID=bigcommunity' /etc/os-release; then
+		sed -i 's|www.biglinux.com.br|communitybig.org|g' ~/.config/BraveSoftware/Brave-Browser/Default/Preferences
+	fi
 fi
 
 # # Fix to intel gpu
