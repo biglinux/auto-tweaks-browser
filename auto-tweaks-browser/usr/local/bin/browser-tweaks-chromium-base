@@ -48,7 +48,7 @@ if [ ! -e "$HOME/.config/BraveSoftware" ]; then
 		fi
 	else
 		if [[ -z "$1" ]]; then
-			startUrl=communitybig.org
+			startUrl=www.biglinux.com.br
 		fi
 	fi
 fi
