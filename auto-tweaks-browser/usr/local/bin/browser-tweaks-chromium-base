@@ -99,5 +99,9 @@ else
 	export LD_PRELOAD="/usr/lib/libeatmydata.so"
 fi
 
+if grep -q prefer-dark <(gsettings get org.gnome.desktop.interface color-scheme); then
+	forceDarkMode='--force-dark-mode'
+fi
+
 # Read filename and change /usr/local/bin to /usr/bin
-exec ${0//usr\/local\/bin/usr\/bin} $enableWayland $CLASS --enable-quic --enable-features=FluentScrollbar,GlobalMediaControlsUpdatedUI,ParallelDownloading --disable-features=WebRtcAllowInputVolumeAdjustment,AllowQt,GlobalShortcutsPortal $PARAMETERS $startUrl ${1+"$@"}
+exec ${0//usr\/local\/bin/usr\/bin} $enableWayland $forceDarkMode $CLASS --enable-quic --enable-features=TearOffWebAppTabOpensWebAppWindow,PdfOcr,PdfSearchify,PdfTags,AccessiblePDFForm,PdfXfaForms,FluentScrollbar,GlobalMediaControlsUpdatedUI,ParallelDownloading --disable-features=WebRtcAllowInputVolumeAdjustment,AllowQt,GlobalShortcutsPortal $PARAMETERS $startUrl ${1+"$@"}
