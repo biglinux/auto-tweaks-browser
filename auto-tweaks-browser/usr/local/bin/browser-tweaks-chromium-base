@@ -39,6 +39,16 @@ if [ ! -e "$HOME/.config/BraveSoftware" ]; then
 	else
 		cp -R /usr/share/biglinux/browser/BraveSoftware "$HOME/.config/BraveSoftware"
 	fi
+
+	if [ "$XDG_SESSION_DESKTOP" = "KDE" ]; then
+		if [ "$(<"$HOME/.config/kwin_maximized_disable")" = "1" ]; then
+			sed -i 's|"custom_chrome_frame":true|"custom_chrome_frame":false|g;s|,"system_theme":1|,"system_theme":2|g' ~/.config/BraveSoftware/Brave-Browser/Default/Preferences
+		else
+			sed -i 's|"custom_chrome_frame":false|"custom_chrome_frame":true|g;s|,"system_theme":2|,"system_theme":1|g' ~/.config/BraveSoftware/Brave-Browser/Default/Preferences
+		fi
+	fi
+	
+	
 	
 	# Change default url in community version
 	if grep -q 'ID=bigcommunity' /etc/os-release; then
